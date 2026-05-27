@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuMa Comunicación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #e8177f;
+    --pink-dark: #c0136a;
+    --black: #1a1a1a;
+    --cream: #f0ede6;
+    --cream-dark: #e2ddd4;
+    --white: #ffffff;
+    --gray: #6b6b6b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--cream);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 64px;
+  }
+
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-logo span { color: var(--pink); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+  }
+
+  nav ul a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav ul a:hover { color: var(--pink); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    padding: 80px 5% 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 600px; height: 600px;
+    background: var(--pink);
+    opacity: 0.06;
+    border-radius: 50%;
+  }
+
+  .hero-content { max-width: 720px; position: relative; z-index: 1; }
+
+  .hero-tag {
+    display: inline-block;
+    background: var(--pink);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(56px, 8vw, 100px);
+    line-height: 0.92;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--pink);
+    display: block;
+  }
+
+  .hero p {
+    color: #aaa;
+    font-size: 17px;
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 40px;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--pink);
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover {
+    background: var(--pink-dark);
+    transform: translateY(-2px);
+  }
+
+  .hero-accent {
+    position: absolute;
+    bottom: 60px; right: 5%;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 180px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    text-transform: uppercase;
+    letter-spacing: -8px;
+    line-height: 1;
+    user-select: none;
+  }
+
+  /* SECTION BASE */
+  section { padding: 100px 5%; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(38px, 5vw, 60px);
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 48px;
+  }
+
+  /* QUIENES SOMOS */
+  .about {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-text p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .about-right { display: flex; flex-direction: column; gap: 16px; }
+
+  .pillar {
+    background: var(--black);
+    color: var(--white);
+    padding: 24px 28px;
+    border-left: 4px solid var(--pink);
+  }
+
+  .pillar-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 8px;
+  }
+
+  .pillar p { font-size: 14px; color: #ccc; line-height: 1.6; }
+
+  /* SERVICIOS */
+  .services { background: var(--black); }
+  .services .section-title { color: var(--white); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: #333;
+  }
+
+  .service-card {
+    background: #111;
+    padding: 40px 32px;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .service-card:hover { background: #1a1a1a; }
+
+  .service-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--pink);
+    opacity: 0.4;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .service-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .service-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .service-card ul li {
+    font-size: 13px;
+    color: #888;
+    padding: 5px 0;
+    border-bottom: 1px solid #222;
+    line-height: 1.5;
+  }
+
+  .service-card ul li:last-child { border-bottom: none; }
+
+  .service-card ul li::before {
+    content: '— ';
+    color: var(--pink);
+    font-weight: 700;
+  }
+
+  /* EQUIPO */
+  .team { background: var(--cream-dark); }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 860px;
+  }
+
+  .team-card {
+    background: var(--black);
+    color: var(--white);
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .team-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--pink);
+  }
+
+  .team-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 16px;
+  }
+
+  .team-card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #bbb;
+  }
+
+  /* ENCUESTAS */
+  .surveys { background: var(--cream); }
+
+  .surveys-intro {
+    font-size: 17px;
+    color: #555;
+    max-width: 600px;
+    margin-bottom: 48px;
+    line-height: 1.7;
+  }
+
+  /* URL input para configurar el sheet */
+  .sheet-config {
+    background: var(--white);
+    border: 2px dashed #ccc;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .sheet-config label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+
+  .sheet-config input {
+    flex: 1;
+    min-width: 300px;
+    font-size: 13px;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    font-family: monospace;
+    outline: none;
+    color: var(--black);
+  }
+
+  .sheet-config input:focus { border-color: var(--pink); }
+
+  .btn-load {
+    background: var(--pink);
+    color: var(--white);
+    border: none;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 24px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-load:hover { background: var(--pink-dark); }
+
+  /* Cards de encuestas */
+  #surveys-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .survey-card {
+    background: var(--white);
+    border-top: 4px solid var(--pink);
+    padding: 28px 28px 24px;
+    animation: fadeIn 0.4s ease both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .survey-card-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 10px;
+  }
+
+  .survey-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+
+  .survey-bar-row {
+    margin-bottom: 10px;
+  }
+
+  .survey-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .survey-bar-label span:first-child { color: #444; }
+  .survey-bar-label span:last-child { font-weight: 600; color: var(--black); }
+
+  .survey-bar-bg {
+    background: #eee;
+    height: 8px;
+    width: 100%;
+  }
+
+  .survey-bar-fill {
+    height: 8px;
+    background: var(--pink);
+    transition: width 0.6s ease;
+  }
+
+  .survey-meta {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid #eee;
+    font-size: 12px;
+    color: #999;
+  }
+
+  /* Estado vacío / carga */
+  .surveys-placeholder {
+    text-align: center;
+    padding: 60px 20px;
+    color: #aaa;
+    font-size: 15px;
+    grid-column: 1 / -1;
+  }
+
+  .surveys-placeholder strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 24px;
+    color: #ccc;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  /* CONTACTO */
+  .contact {
+    background: var(--black);
+    text-align: center;
+  }
+
+  .contact .section-title { color: var(--white); }
+
+  .contact-slogan {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 4vw, 44px);
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 48px;
+    letter-spacing: 1px;
+  }
+
+  .contact-grid {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .contact-item { text-align: center; }
+
+  .contact-item-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 8px;
+  }
+
+  .contact-item a, .contact-item p {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.2s;
+  }
+
+  .contact-item a:hover { color: var(--white); }
+
+  footer {
+    background: #111;
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #555;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    .hero h1 { font-size: 52px; }
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr; }
+    .sheet-config { flex-direction: column; align-items: stretch; }
+    .sheet-config input { min-width: unset; }
+    .contact-grid { flex-direction: column; gap: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Qu<span>M</span>a</div>
+  <ul>
+    <li><a href="#quienes">Nosotros</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#encuestas">Encuestas</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Consultora de comunicación · 2025</div>
+    <h1>
+      Comunicación<br>
+      <em>que genera</em>
+      impacto
+    </h1>
+    <p>Consultora especializada en comunicación política, institucional y empresarial. Combinamos experiencia y nuevas tecnologías para alcanzar tus objetivos estratégicos.</p>
+    <a href="#encuestas" class="btn-primary">Ver encuestas →</a>
+  </div>
+  <div class="hero-accent">QuMa</div>
+</section>
+
+<!-- QUIENES SOMOS -->
+<section class="about" id="quienes">
+  <div class="about-text">
+    <div class="section-label">Quiénes somos</div>
+    <h2 class="section-title">Experiencia<br>y tecnología</h2>
+    <p>QuMa es una consultora especializada en comunicación política e institucional. Nuestra misión es acercar herramientas de comunicación efectivas para que nuestros clientes alcancen sus objetivos estratégicos con impacto y claridad.</p>
+    <p>Combinamos dos aspectos fundamentales: experiencia de campo y nuevas tecnologías.</p>
+  </div>
+  <div class="about-right">
+    <div class="pillar">
+      <div class="pillar-title">Experiencia estratégica</div>
+      <p>Años de conocimiento profundo en los diferentes ámbitos de la comunicación política y empresarial.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Enfoque en resultados</div>
+      <p>Medimos el éxito de nuestras estrategias en función de los objetivos concretos de cada cliente.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-title">Visión 360°</div>
+      <p>Integramos comunicación online y offline para garantizar un mensaje coherente y efectivo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="services" id="servicios">
+  <div class="section-label">Qué hacemos</div>
+  <h2 class="section-title" style="color:white">Nuestros<br>servicios</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-number">01</div>
+      <h3>Comunicación política</h3>
+      <ul>
+        <li>Campañas electorales</li>
+        <li>Análisis de opinión pública</li>
+        <li>Perfil del candidato</li>
+        <li>Comunicación de gobierno</li>
+        <li>Manejo de crisis políticas</li>
+        <li>Comunicación digital</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-number">02</div>
+      <h3>Comunicación institucional</h3>
+      <ul>
+        <li>Planes de comunicación</li>
+        <li>Reputación online y offline</li>
+        <li>Relaciones con los medios</li>
+        <li>Organización de eventos</li>
+        <li>Responsabilidad social</li>
+        <li>ONGs</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-number">03</div>
+      <h3>Comunicación empresarial</h3>
+      <ul>
+        <li>Posicionamiento de marca</li>
+        <li>Comunicación de crisis</li>
+        <li>Marketing digital</li>
+        <li>Redes sociales</li>
+        <li>Desarrollo de contenidos</li>
+        <li>Social Listening</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section class="team" style="background:var(--cream-dark)">
+  <div class="section-label">Fundadores</div>
+  <h2 class="section-title">El equipo</h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-name">Marin Bustamante</div>
+      <p>Consultor, docente e investigador universitario. Periodista con trayectoria en política nacional e internacional. Licenciado en Ciencias de la Comunicación (UBA) y Especialista en Comunicador Convergente y Locutor Nacional (Matrícula N° 14185) en el ISER.</p>
+    </div>
+    <div class="team-card">
+      <div class="team-name">Juan Mathias</div>
+      <p>Consultor, cronista y fotoperiodista. Miembro de Argra y de la Asociación de Consultores Políticos de la Argentina. Más de 17 años de experiencia en campañas electorales. Asesor en comunicación legislativa en Buenos Aires, Capital Federal y Neuquén.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ENCUESTAS -->
+<section class="surveys" id="encuestas">
+  <div class="section-label">Datos públicos</div>
+  <h2 class="section-title">Resultados de<br>encuestas</h2>
+  <p class="surveys-intro">Resultados de nuestros sondeos de opinión pública. Los datos se actualizan automáticamente desde nuestra planilla de trabajo.</p>
+
+  <!-- CONFIG: pegá acá la URL de tu Google Sheet publicado como CSV -->
+  <div class="sheet-config">
+    <label>URL del Google Sheet (CSV):</label>
+    <input type="text" id="sheet-url" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv" />
+    <button class="btn-load" onclick="loadSurveys()">Cargar datos</button>
+  </div>
+
+  <div id="surveys-container">
+    <div class="surveys-placeholder">
+      <strong>Sin datos cargados</strong>
+      Ingresá la URL de tu Google Sheet arriba y hacé clic en "Cargar datos"
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contact" id="contacto">
+  <div class="section-label">Contacto</div>
+  <h2 class="section-title" style="color:white;margin-bottom:16px">Hablemos</h2>
+  <p class="contact-slogan">Nuestro aporte mejora tus objetivos.</p>
+  <div class="contact-grid">
+    <div class="contact-item">
+      <div class="contact-item-label">Teléfonos</div>
+      <p>223 556-9255 / 223 524-7519</p>
+    </div>
+    <div class="contact-item">
+      <div class="contact-item-label">Email</div>
+      <a href="mailto:juanpmathias@gmail.com">juanpmathias@gmail.com</a>
+    </div>
+    <div class="contact-item">
+      <div class="contact-item-label">Instagram</div>
+      <a href="https://instagram.com/QuMaComunicacion" target="_blank">@QuMaComunicación</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 QuMa Comunicación · Todos los derechos reservados
+</footer>
+
+<script>
+// ─── LÓGICA DE ENCUESTAS ─────────────────────────────────────────────────────
+// Estructura esperada en el Google Sheet (primera fila = encabezados):
+// Columna A: nombre_encuesta
+// Columna B: fecha
+// Columna C: opcion_1_label
+// Columna D: opcion_1_valor (número, ej: 42.5)
+// Columna E: opcion_2_label
+// Columna F: opcion_2_valor
+// Columna G: opcion_3_label (opcional)
+// Columna H: opcion_3_valor (opcional)
+// ... (puede seguir con más opciones en pares)
+// Última columna: muestra (ej: "n=1200 casos")
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+  return lines.slice(1).map(line => {
+    const vals = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = vals[i] || ''; });
+    return obj;
+  });
+}
+
+function buildSurveyCard(row, index) {
+  // Extraer pares de opción-valor dinámicamente
+  const keys = Object.keys(row);
+  const nombre = row[keys[0]] || 'Encuesta';
+  const fecha = row[keys[1]] || '';
+  const muestra = row[keys[keys.length - 1]] || '';
+
+  // Buscar pares label/valor desde columna 3 hasta penúltima
+  const pairs = [];
+  for (let i = 2; i < keys.length - 1; i += 2) {
+    const label = row[keys[i]];
+    const val = parseFloat(row[keys[i + 1]]);
+    if (label && !isNaN(val)) pairs.push({ label, val });
+  }
+
+  if (pairs.length === 0) return '';
+
+  const maxVal = Math.max(...pairs.map(p => p.val));
+
+  const bars = pairs.map(p => `
+    <div class="survey-bar-row">
+      <div class="survey-bar-label">
+        <span>${p.label}</span>
+        <span>${p.val.toFixed(1)}%</span>
+      </div>
+      <div class="survey-bar-bg">
+        <div class="survey-bar-fill" style="width:${(p.val / (maxVal || 1) * 100).toFixed(1)}%"></div>
+      </div>
+    </div>
+  `).join('');
+
+  return `
+    <div class="survey-card" style="animation-delay:${index * 0.08}s">
+      <div class="survey-card-label">Encuesta</div>
+      <h3>${nombre}</h3>
+      ${bars}
+      <div class="survey-meta">${fecha}${muestra ? ' · ' + muestra : ''}</div>
+    </div>
+  `;
+}
+
+async function loadSurveys() {
+  const url = document.getElementById('sheet-url').value.trim();
+  const container = document.getElementById('surveys-container');
+
+  if (!url) {
+    container.innerHTML = '<div class="surveys-placeholder"><strong>URL vacía</strong>Ingresá la URL de tu Google Sheet publicado como CSV</div>';
+    return;
+  }
+
+  container.innerHTML = '<div class="surveys-placeholder"><strong>Cargando...</strong>Obteniendo datos de la planilla</div>';
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('No se pudo acceder a la planilla');
+    const text = await res.text();
+    const rows = parseCSV(text).filter(r => Object.values(r).some(v => v));
+
+    if (rows.length === 0) {
+      container.innerHTML = '<div class="surveys-placeholder"><strong>Sin datos</strong>La planilla no tiene filas con datos</div>';
+      return;
+    }
+
+    container.innerHTML = rows.map((r, i) => buildSurveyCard(r, i)).join('');
+  } catch (err) {
+    container.innerHTML = `<div class="surveys-placeholder"><strong>Error al cargar</strong>${err.message}. Verificá que la planilla esté publicada como CSV y que la URL sea correcta.</div>`;
+  }
+}
+
+// Animación de las barras al hacer scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.survey-bar-fill').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => { bar.style.width = w; }, 50);
+      });
+    }
+  });
+}, { threshold: 0.2 });
+
+// Observer se aplica a nuevas cards al cargar
+const origInner = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML').set;
+</script>
+
+</body>
+</html>
